@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1013298927101",
+    "project_id": "fir-b72af",
+    "storage_bucket": "fir-b72af.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013298927101:android:29ff1d5dbb118eea1d3594",
+        "android_client_info": {
+          "package_name": "com.example.blogger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVuACiL7Rc2w25CKjIjsX1cLCftuwS5Aw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

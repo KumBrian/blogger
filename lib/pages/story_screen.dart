@@ -29,6 +29,7 @@ class _StoryScreenState extends State<StoryScreen>
 
   @override
   void dispose() {
+    progressAnimationController.stop();
     super.dispose();
     progressAnimationController.dispose();
   }

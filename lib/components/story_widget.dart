@@ -17,7 +17,7 @@ class StoryWidget extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            context.go('/home/story');
+            context.go('/home/story', extra: index);
           },
           child: Stack(
             children: [

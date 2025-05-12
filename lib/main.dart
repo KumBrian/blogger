@@ -45,12 +45,6 @@ final GoRouter _router = GoRouter(
             return const ProfileScreen();
           },
         ),
-        GoRoute(
-          path: 'story',
-          builder: (BuildContext context, GoRouterState state) {
-            return const StoryScreen();
-          },
-        ),
       ],
     ),
     GoRoute(
@@ -58,6 +52,14 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const HomeScreen();
       },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'story',
+          builder: (BuildContext context, GoRouterState state) {
+            return const StoryScreen();
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/login',

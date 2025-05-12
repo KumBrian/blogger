@@ -65,11 +65,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
           widget.label == 'Email'
               ? TextInputType.emailAddress
               : TextInputType.text, // Choose keyboard type based on label
-      style: AppFont.medium.copyWith(color: AppColors.darkBlue, fontSize: 24),
+      style: AppFont.medium.copyWith(color: AppColors.darkBlue, fontSize: 20),
       onTapOutside:
           (event) => FocusScope.of(context).unfocus(), // Unfocus on tap outside
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.only(bottom: 10),
+        contentPadding: const EdgeInsets.only(bottom: 2),
         hintText: widget.hint,
         label: Text(widget.label),
         // Toggle icon for password visibility

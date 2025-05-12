@@ -1,9 +1,47 @@
+import 'dart:ui';
+
+import 'package:blogger/components/story_progress_bar.dart';
 import 'package:blogger/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class StoryScreen extends StatelessWidget {
+class StoryScreen extends StatefulWidget {
   const StoryScreen({super.key});
+
+  @override
+  State<StoryScreen> createState() => _StoryScreenState();
+}
+
+class _StoryScreenState extends State<StoryScreen>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+
+    progressAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 15),
+    );
+
+    _navigateToHome();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    progressAnimationController.dispose();
+  }
+
+  void _navigateToHome() async {
+    await Future.delayed(const Duration(seconds: 15));
+
+    if (mounted) {
+      context.pop();
+    }
+  }
+
+  late AnimationController progressAnimationController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +68,151 @@ class StoryScreen extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                  top: 20,
-                  left: 20,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                  top: 0,
+                  child: Container(
+                    width: size.width,
+                    height: size.height * 0.4,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.6),
+                          Colors.black.withValues(alpha: 0.4),
+                          Colors.black.withValues(alpha: 0.2),
+                          Colors.black.withValues(alpha: 0),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
-                  bottom: 20,
-                  left: 20,
-                  child: Text(
-                    'The Story of\nThe World',
-                    style: AppFont.black.copyWith(
-                      color: Colors.white,
-                      fontSize: 30,
+                  bottom: 0,
+                  child: Container(
+                    width: size.width,
+                    height: size.height * 0.35,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.6),
+                          Colors.black.withValues(alpha: 0.4),
+                          Colors.black.withValues(alpha: 0.2),
+                          Colors.black.withValues(alpha: 0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 40.0,
+                    horizontal: 40,
+                  ),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: StoryProgressBar(
+                      animationController: progressAnimationController,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 70,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/category1.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                          children: [
+                            Text(
+                              'Jasmine Levin',
+                              style: AppFont.heavy.copyWith(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              '4m ago',
+                              style: AppFont.light.copyWith(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: size.width * 0.2),
+
+                        IconButton(
+                          icon: const Icon(Icons.close_rounded, size: 45),
+                          color: Colors.white,
+                          onPressed: () {
+                            progressAnimationController.stop();
+                            context.pop();
+                            debugPrint('Pop to Home');
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal: 20,
+                          ),
+                          width: size.width * 0.8,
+                          height: size.height * 0.36,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Do You Want To Live A Happy Life? Smile',
+                                style: AppFont.heavy.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                "Sometimes there’s no reason to smile, but I’ll smile anyway because of life. Yes, I’m one of those people who always smiles.",
+                                style: AppFont.medium.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -55,51 +220,61 @@ class StoryScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          Stack(
             children: [
-              Column(
-                children: [
-                  Icon(HugeIcons.strokeRoundedArrowUp01, color: Colors.white),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Icon(HugeIcons.strokeRoundedArrowUp01, color: Colors.white),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 10,
+                      child: Text(
+                        'Read More',
+                        style: AppFont.heavy.copyWith(
+                          color: AppColors.darkBlueText,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      'Read More',
-                      style: AppFont.medium.copyWith(
-                        color: AppColors.darkBlueText,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Column(
-                children: [
-                  Icon(
-                    Icons.favorite_rounded,
-                    color: Color(0xffFF3743),
-                    size: 35,
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
                   ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.favorite_rounded,
+                        color: Color(0xffFF3743),
+                        size: 35,
+                      ),
 
-                  Text(
-                    '450k',
-                    style: AppFont.roman.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+                      Text(
+                        '450k',
+                        style: AppFont.roman.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

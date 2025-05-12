@@ -27,7 +27,7 @@ class StretchedButton extends StatelessWidget {
         // Disable button interaction when loading
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 18),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           backgroundColor: AppColors.blue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-
 part 'login_events.dart';
 part 'login_states.dart';
 
@@ -73,6 +72,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     // Brief delay before setting status back to idle
     await Future.delayed(Duration(milliseconds: 300));
+
     emit(state.copyWith(submissionStatus: FormSubmissionStatus.idle));
   }
 

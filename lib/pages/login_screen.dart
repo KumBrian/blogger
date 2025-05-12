@@ -6,6 +6,7 @@ import 'package:blogger/utils/app_utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 // Add other necessary imports
 
 /// The LoginScreen handles both login and signup UI.
@@ -23,7 +24,7 @@ class LoginScreen extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         body: Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.1,
+            top: MediaQuery.of(context).size.height * 0.05,
           ),
           child: Column(
             children: [
@@ -31,10 +32,10 @@ class LoginScreen extends StatelessWidget {
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
-                  width: size.width * 0.25,
+                  width: size.width * 0.2,
                 ),
               ),
-              SizedBox(height: size.height * 0.05),
+              SizedBox(height: size.height * 0.02),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -163,9 +164,9 @@ class LoginScreen extends StatelessWidget {
     return [
       Text(
         'Welcome Back!',
-        style: AppFont.heavy.copyWith(fontSize: 32, color: AppColors.darkBlue),
+        style: AppFont.heavy.copyWith(fontSize: 28, color: AppColors.darkBlue),
       ),
-      SizedBox(height: size.height * 0.02),
+      SizedBox(height: size.height * 0.01),
       Text(
         'Sign in to your account',
         style: AppFont.book.copyWith(
@@ -173,7 +174,7 @@ class LoginScreen extends StatelessWidget {
           color: AppColors.darkBlueText,
         ),
       ),
-      SizedBox(height: size.height * 0.04),
+      SizedBox(height: size.height * 0.02),
       // Email input
       CustomTextField(
         label: 'Email',
@@ -202,7 +203,10 @@ class LoginScreen extends StatelessWidget {
             onPressed:
                 state.submissionStatus == FormSubmissionStatus.submitting
                     ? null
-                    : () => context.read<LoginBloc>().add(LoginSubmitted()),
+                    : () {
+                      context.read<LoginBloc>().add(LoginSubmitted());
+                      context.go('/home');
+                    },
             isLoading:
                 state.submissionStatus == FormSubmissionStatus.submitting,
           );
@@ -226,6 +230,7 @@ class LoginScreen extends StatelessWidget {
                   TapGestureRecognizer()
                     ..onTap = () {
                       // Handle password reset action
+                      debugPrint('Reset');
                     },
               text: 'Reset Here',
               style: AppFont.book.copyWith(fontSize: 18, color: AppColors.blue),
@@ -239,7 +244,7 @@ class LoginScreen extends StatelessWidget {
         'OR SIGN IN WITH',
         textAlign: TextAlign.center,
         style: AppFont.book.copyWith(
-          fontSize: 24,
+          fontSize: 20,
           color: AppColors.darkBlueText.withAlpha(200),
         ),
       ),
@@ -248,13 +253,29 @@ class LoginScreen extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ImageButton(image: 'google', onTap: () {}),
+          ImageButton(
+            image: 'google',
+            onTap: () {
+              debugPrint('Google Sign In');
+            },
+          ),
           SizedBox(width: size.height * 0.03),
-          ImageButton(image: 'facebook', onTap: () {}),
+          ImageButton(
+            image: 'facebook',
+            onTap: () {
+              debugPrint('Facebook Sign In');
+            },
+          ),
           SizedBox(width: size.height * 0.03),
-          ImageButton(image: 'twitter', onTap: () {}),
+          ImageButton(
+            image: 'twitter',
+            onTap: () {
+              debugPrint('Twitter Sign In');
+            },
+          ),
         ],
       ),
+      SizedBox(height: size.height * 0.02),
     ];
   }
 
@@ -264,9 +285,9 @@ class LoginScreen extends StatelessWidget {
     return [
       Text(
         'Create an Account',
-        style: AppFont.heavy.copyWith(fontSize: 32, color: AppColors.darkBlue),
+        style: AppFont.heavy.copyWith(fontSize: 28, color: AppColors.darkBlue),
       ),
-      SizedBox(height: size.height * 0.02),
+      SizedBox(height: size.height * 0.01),
       Text(
         'Sign up to get started',
         style: AppFont.book.copyWith(
@@ -274,7 +295,7 @@ class LoginScreen extends StatelessWidget {
           color: AppColors.darkBlueText,
         ),
       ),
-      SizedBox(height: size.height * 0.03),
+      SizedBox(height: size.height * 0.02),
       // Name input
       CustomTextField(
         label: 'Full Name',
@@ -283,7 +304,7 @@ class LoginScreen extends StatelessWidget {
         onChanged:
             (value) => context.read<LoginBloc>().add(SignUpNameChanged(value)),
       ),
-      SizedBox(height: size.height * 0.02),
+      SizedBox(height: size.height * 0.03),
       // Email input
       CustomTextField(
         label: 'Email',
@@ -292,7 +313,7 @@ class LoginScreen extends StatelessWidget {
         onChanged:
             (value) => context.read<LoginBloc>().add(SignUpEmailChanged(value)),
       ),
-      SizedBox(height: size.height * 0.02),
+      SizedBox(height: size.height * 0.03),
       // Password input
       CustomTextField(
         label: 'Password',
@@ -303,7 +324,7 @@ class LoginScreen extends StatelessWidget {
             (value) =>
                 context.read<LoginBloc>().add(SignUpPasswordChanged(value)),
       ),
-      SizedBox(height: size.height * 0.02),
+      SizedBox(height: size.height * 0.03),
       // Signup button with loading state
       BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
@@ -312,7 +333,10 @@ class LoginScreen extends StatelessWidget {
             onPressed:
                 state.submissionStatus == FormSubmissionStatus.submitting
                     ? null
-                    : () => context.read<LoginBloc>().add(SignUpSubmitted()),
+                    : () {
+                      context.read<LoginBloc>().add(SignUpSubmitted());
+                      context.go('/home');
+                    },
             isLoading:
                 state.submissionStatus == FormSubmissionStatus.submitting,
           );
@@ -324,7 +348,7 @@ class LoginScreen extends StatelessWidget {
         'OR SIGN UP WITH',
         textAlign: TextAlign.center,
         style: AppFont.book.copyWith(
-          fontSize: 24,
+          fontSize: 20,
           color: AppColors.darkBlueText.withAlpha(200),
         ),
       ),
@@ -333,11 +357,26 @@ class LoginScreen extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ImageButton(image: 'google', onTap: () {}),
+          ImageButton(
+            image: 'google',
+            onTap: () {
+              debugPrint('Google Sign Up');
+            },
+          ),
           SizedBox(width: size.height * 0.03),
-          ImageButton(image: 'facebook', onTap: () {}),
+          ImageButton(
+            image: 'facebook',
+            onTap: () {
+              debugPrint('Facebook Sign Up');
+            },
+          ),
           SizedBox(width: size.height * 0.03),
-          ImageButton(image: 'twitter', onTap: () {}),
+          ImageButton(
+            image: 'twitter',
+            onTap: () {
+              debugPrint('Twitter Sign Up');
+            },
+          ),
         ],
       ),
     ];

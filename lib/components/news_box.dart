@@ -15,7 +15,7 @@ class NewsBox extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Container(
-            height: size.height * 0.25,
+            height: size.height * 0.18,
             width: size.width * 0.3,
 
             decoration: BoxDecoration(

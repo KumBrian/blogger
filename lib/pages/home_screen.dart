@@ -1,9 +1,15 @@
 import 'package:blogger/components/carousel_container.dart';
 import 'package:blogger/components/news_box.dart';
 import 'package:blogger/components/story_widget.dart';
+import 'package:blogger/data/sample_data.dart';
+import 'package:blogger/models/article_model.dart';
 import 'package:blogger/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+
+import '../models/story_model.dart';
+import '../models/user_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +20,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int itemIndex = 0;
+  List<Story> stories = [];
+  List<Article> articles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    stories = generateSampleStories();
+    List<User> users = sampleUsers;
+    articles = [
+      Article(
+        user: users[0],
+        articleTitle: 'The Future of Tech',
+        articleDescription: 'Exploring the upcoming trends in technology...',
+        timeSincePosted: Duration(hours: 2),
+        imagePath: 'assets/images/article1.jpg',
+      ),
+      Article(
+        user: users[1],
+        articleTitle: 'Productivity Hacks for Developers',
+        articleDescription: 'Simple yet effective ways to stay productive...',
+        timeSincePosted: Duration(days: 1, hours: 3),
+        imagePath: 'assets/images/article2.jpg',
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,16 +85,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(
-            height: size.height * 0.18,
+            height: size.height * 0.12,
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 5, left: 40),
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              itemCount: 10,
+              itemCount: stories.length,
               itemBuilder: (context, index) {
                 return StoryWidget(
-                  index: index,
+                  story: stories[index],
                   isViewed: index % 2 == 0 ? true : false,
+                  size: size,
                 );
               },
             ),
@@ -110,8 +143,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Column(
-            children: List.generate(3, (index) {
-              return NewsBox(size: size);
+            children: List.generate(articles.length, (index) {
+              return InkWell(
+                onTap: () {
+                  // Handle article tap
+                  context.go('/home/article', extra: articles[index]);
+                },
+                child: NewsBox(size: size),
+              );
             }),
           ),
         ],

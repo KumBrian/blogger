@@ -4,11 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 
-class StoryWidget extends StatelessWidget {
-  const StoryWidget({super.key, required this.index, required this.isViewed});
+import '../models/story_model.dart';
 
-  final int index;
+class StoryWidget extends StatelessWidget {
+  const StoryWidget({
+    super.key,
+    required this.isViewed,
+    required this.size,
+    required this.story,
+  });
+
+  final Story story;
   final bool isViewed;
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +25,7 @@ class StoryWidget extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            context.go('/home/story', extra: index);
+            context.go('/home/story', extra: story);
           },
           child: Stack(
             children: [
@@ -30,11 +38,14 @@ class StoryWidget extends StatelessWidget {
                           radius: const Radius.circular(28),
                           color: Colors.blueGrey,
                           strokeWidth: 2,
-                          child: SizedBox(height: 75, width: 75),
+                          child: SizedBox(
+                            height: size.height * 0.075,
+                            width: size.height * 0.075,
+                          ),
                         )
                         : Container(
-                          height: 80,
-                          width: 80,
+                          height: size.height * 0.08,
+                          width: size.height * 0.08,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(28),
                             color: Colors.transparent,
@@ -49,8 +60,8 @@ class StoryWidget extends StatelessWidget {
                 top: 5,
                 left: 10,
                 child: Container(
-                  height: 70,
-                  width: 70,
+                  height: size.height * 0.07,
+                  width: size.height * 0.07,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     image: DecorationImage(
@@ -64,8 +75,8 @@ class StoryWidget extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  height: 30,
-                  width: 30,
+                  height: size.height * 0.025,
+                  width: size.height * 0.025,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     color: AppColors.blue,
@@ -82,7 +93,7 @@ class StoryWidget extends StatelessWidget {
           ),
         ),
         Text(
-          'Category ${index + 1}',
+          '@${story.user.username}',
           style: AppFont.black.copyWith(
             fontSize: 12,
             fontWeight: FontWeight.w500,
